@@ -106,7 +106,7 @@ Add the following to your `~/.bashrc`
 
 If you are using anything that adds something to your Bash `$PROMPT_COMMAND`
 like [fzf](https://github.com/junegunn/fzf), make sure you source this first.
-This prompt command this PS1 adds must be the first part of your
+The prompt command this PS1 adds must be the first part of your
 `$PROMPT_COMMAND`.
 
 
