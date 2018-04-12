@@ -98,7 +98,7 @@ Bash prompt variables. A bit better for performance than the extensive style.
 
 ## Installation ##
 
-Copy all files to `~/.local/lib/bash`
+Copy all files but `README.md` to `~/.local/lib/bash`
 
 Add the following to your `~/.bashrc`
 
@@ -122,6 +122,8 @@ The default prompt style is `extensive`.
 You can change the location of the shell log file by setting `$BASHSHELLLOGFILE`.
 
     BASHSHELLLOGFILE=~/.bash-shell.log
+
+The default location is `~/.local/share/bash/shell.log`
 
 The history updater uses the standard Bash variables `HISTFILE`,
 `HISTFILESIZE`, and `HISTSIZE`. It assumes `HISTCONTROL` is set to
