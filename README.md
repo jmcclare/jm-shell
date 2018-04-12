@@ -28,14 +28,15 @@ shows some relevent info about the last command and the current environment.
 
 ### Prompt ###
 
-The Prompt is a simple, bold yellow dollar sign. When you are typing the
-command text is standard grey. After you enter a command, it gets redrawn in
-bold yellow to make it easy to pick out visually when you’re scrolling back.
+The Prompt is a simple bold yellow dollar sign. When you are typing the command
+text is standard grey. After you enter a command it gets redrawn in bold yellow
+to make it easy to pick out visually when you’re scrolling back.
 
 ### Background Jobs ###
 
 It keeps history entries unique, up to date among all open shells and with most
-recent commands last (at the bottom).
+recent commands last (at the bottom). This is better for searching your command
+history with the up arrows or `Ctrl-r`.
 
 It also maintains a shell log file in `~/.local/share/bash/shell.log`
 
