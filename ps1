@@ -380,7 +380,7 @@ prompt_pre_command() {
 
 
 prompt_post_command() {
-	# set a harmelss local dummy variable to keep this function from being
+	# set a harmless local dummy variable to keep this function from being
 	# blank.
 	local a=0
 
@@ -539,12 +539,13 @@ prompt_command() {
     let prompt_debug_marks=0
 
     # Set $PS1 according to what $prompt_style is set to. We either set $PS1
-    # directly here, or call a function that sets it.
+    # directly here, or call a function that sets it and also runs the pre and
+    # post commands.
     case "${prompt_style}" in
         standard) PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ ' ;;
         tweaked) prompt_tweaked_style ;;
         extensive) prompt_extensive_style ;;
-        minimal) prompt_minimal_style ;;
+        minimal) PS1='\$ ' ;;
         kirby) prompt_kirby_style ;;
         erection) prompt_erection_style ;;
         divider) prompt_divider_style ;;
@@ -621,7 +622,7 @@ prompt_tweaked_style() {
 
 
 #
-# Sets $PS1 to the default bash color prompt style.
+# Sets $PS1 to nothing but a grey dollar sign prompt.
 #
 # This is meant to be run as the last step of $PROMPT_COMMAND.
 #
