@@ -23,8 +23,9 @@ shows some relevent info about the last command and the current environment.
 * shows username@hostname:location
 * shows number of items in current directory
 * current directory is in grey if not writeable
+* directory will drop down to the next line if it doesn’t fit
 * shows number of running background jobs on the left, if any
-* gives info on source code repositories if current dir is in one
+* gives info on source code repositories if current dir is in one (Subversion, Mercurial, Git)
 
 ### Prompt ###
 
