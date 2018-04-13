@@ -2,7 +2,7 @@
 
 My extensive, customized Bash shell.
 
-<img src="screen-shot.png" />
+<img src="screenshot.png" />
 
 ## Features ##
 
