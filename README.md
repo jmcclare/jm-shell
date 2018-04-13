@@ -95,7 +95,7 @@ it for too long or you’ll run out of screen space.
 
 #### divider ####
 
-A the line prompt similar to the extensive style, but it uses only standard
+A divider line prompt similar to the extensive style, but it uses only standard
 Bash prompt variables. A bit better for performance than the extensive style.
 
 
