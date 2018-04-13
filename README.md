@@ -15,17 +15,17 @@ shows some relevent info about the last command and the current environment.
 * time last command finished on the right
 * shows error code of last command, if any
 * shows total time of last command if over 4 seconds
-* shows if inside Vim, Midnight Commander, or [Desk](https://github.com/jamesob/desk)
-* shows current system load average if over 1
-* shows a battery charge status if laptop battery is less than full
+* indicates if inside Vim, Midnight Commander, or [Desk](https://github.com/jamesob/desk)
+* shows current system load average if over 1, in red if over 2
+* shows battery charge status if laptop battery is less than full
 
 ### Current Location / Status Line ###
 
-* shows username@hostname:location
+* shows username@hostname:path
 * shows number of items in current directory
-* current directory is in grey if not writeable
-* directory will drop down to the next line if it doesn’t fit
-* shows number of running background jobs on the left, if any
+* path is in grey if not writeable
+* path will drop down to the next line if it doesn’t fit
+* shows number of background jobs on the left, if any
 * gives info on source code repositories if current dir is in one (Subversion, Mercurial, Git)
 
 ### Prompt ###
@@ -44,7 +44,8 @@ It also maintains a shell log file in `~/.local/share/bash/shell.log`
 
 The regular bash history file has only unique commands for reverse history
 searching. The shell log is a full history of your shell activity for
-reference.
+reference. It also logs a commented command indicating new shells, closed
+shells and blank lines entered.
 
 Shell log entries look like this:
 
@@ -55,15 +56,15 @@ working directory, and the command. The fields are tab separated.
 
 Both the history and the shell log file omit logging commands that begin with a
 space. This is the same as Bash’s `ignorespace` or `ignoreboth` options, but it
-ignores spaced commands no matter how those are set.
+does this no matter how those are set.
 
 ### Other Included Prompt Styles ###
 
-
 #### standard ####
 
-The default Bash color prompt style. Setting this style also skips the
-background jobs. It’s a bit better for performance on an overloaded system.
+Also named `default`. This is the default Bash color prompt style. Setting this
+style also skips the background jobs. It’s a bit better for performance on an
+overloaded system.
 
 #### tweaked ####
 
@@ -72,7 +73,8 @@ also runs the background jobs.
 
 #### extensive ####
 
-The default style described above.
+The style described at the top. This is the default style if you don’t set
+`prompt_style`.
 
 #### minimal ####
 
@@ -105,10 +107,12 @@ Copy or symlink `ps1`, `colors.sh`, and `color_unset.sh` to `~/.local/lib/bash`
 
 Add the following to your `~/.bashrc`
 
-    source ~/local/lib/bash/ps1`
+```bash
+source ~/local/lib/bash/ps1
+```
 
 If you are using anything that adds something to your Bash `$PROMPT_COMMAND`
-like [fzf](https://github.com/junegunn/fzf), make sure you source this first.
+like [fzf](https://github.com/junegunn/fzf), make sure you source `ps1` first.
 The prompt command this PS1 adds must be the first part of your
 `$PROMPT_COMMAND`.
 
@@ -118,17 +122,21 @@ The prompt command this PS1 adds must be the first part of your
 You can set one of the other styles any time, or in your `~/.bashrc` by setting
 `prompt_style`, like this:
 
-    prompt_style=kirby
+```bash
+prompt_style=kirby
+```
 
 The default prompt style is `extensive`.
 
 You can change the location of the shell log file by setting `$BASHSHELLLOGFILE`.
 
-    BASHSHELLLOGFILE=~/.bash-shell.log
+```bash
+BASHSHELLLOGFILE=~/.bash-shell.log
+```
 
 The default location is `~/.local/share/bash/shell.log`
 
 The history updater uses the standard Bash variables `HISTFILE`,
 `HISTFILESIZE`, and `HISTSIZE`. It assumes `HISTCONTROL` is set to
-`ignoreboth:erasedups` and it does a better job that both of those options
+`ignoreboth:erasedups` and it does a better job than both of those options
 normally do.
