@@ -542,7 +542,7 @@ prompt_command() {
     # directly here, or call a function that sets it and also runs the pre and
     # post commands.
     case "${prompt_style}" in
-        standard) PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ ' ;;
+        standard|default) PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ ' ;;
         tweaked) prompt_tweaked_style ;;
         extensive) prompt_extensive_style ;;
         minimal) PS1='\$ ' ;;
