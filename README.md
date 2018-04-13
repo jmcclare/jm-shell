@@ -1,6 +1,6 @@
 # jm-shell #
 
-My extensive, customized Bash shell.
+A highly informative, customized Bash shell.
 
 <img src="screenshot.png" />
 
