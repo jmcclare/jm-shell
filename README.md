@@ -44,7 +44,7 @@ It also maintains a shell log file in `~/.local/share/bash/shell.log`
 
 The regular bash history file has only unique commands for reverse history
 searching. The shell log is a full history of your shell activity for
-reference. It also logs a commented command indicating new shells, closed
+reference. It also logs a commented command to indicate new shells, closed
 shells and blank lines entered.
 
 Shell log entries look like this:
