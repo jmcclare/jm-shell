@@ -2,6 +2,7 @@
 
 My extensive, customized Bash shell.
 
+<img src="screen-shot.png" />
 
 ## Features ##
 
@@ -100,7 +101,7 @@ Bash prompt variables. A bit better for performance than the extensive style.
 
 ## Installation ##
 
-Copy all files but `README.md` to `~/.local/lib/bash`
+Copy or symlink `ps1`, `colors.sh`, and `color_unset.sh` to `~/.local/lib/bash`
 
 Add the following to your `~/.bashrc`
 
