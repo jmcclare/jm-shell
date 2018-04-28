@@ -30,9 +30,9 @@ shows some relevent info about the last command and the current environment.
 
 ### Prompt ###
 
-The Prompt is a simple bold yellow dollar sign. When you are typing the command
-text is standard grey. After you enter a command it gets redrawn in bold yellow
-to make it easy to pick out visually when you’re scrolling back.
+* simple, bold yellow dollar sign
+* text is standard grey while typing / autocompleting
+* command is redrawn in bold yellow after entering
 
 ### Background Jobs ###
 
