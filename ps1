@@ -725,7 +725,7 @@ prompt_extensive_style() {
     # Show the current battery level and activity, if less than 100%
 
     # Make sure acpi is installed
-    if [ -x "$(which acpi)" ];then
+    if [ -x "$(command -v acpi)" ];then
         local battery_level=`acpi 2> /dev/null | awk '{print $4}' | tr -d " " | tr -d "," | tr -d "%"`
         # On systems that have acpi installed, but not power_supply status
         # supported, it will only output errors. Check for this.
