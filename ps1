@@ -563,7 +563,7 @@ prompt_git() {
     HEAD="$(git symbolic-ref HEAD 2>/dev/null)"
     BRANCH="${HEAD##*/}"
     [[ -n "$(git status 2>/dev/null | \
-        grep -F 'working directory clean')" ]] || STATUS="!"
+        grep -E 'working (directory|tree) clean')" ]] || STATUS="!"
     printf '(git:%s)' "${BRANCH:-unknown}${STATUS}"
 }
 prompt_hg() {
