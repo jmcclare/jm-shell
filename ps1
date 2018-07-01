@@ -541,10 +541,18 @@ prompt_command() {
     # Set $PS1 according to what $prompt_style is set to. We either set $PS1
     # directly here, or call a function that sets it and also runs the pre and
     # post commands.
+    #
+    # TODO: Create new styles:
+    #   * extensive-mono
+    #   * extensive-dark — for light backgrounds
+    #
     case "${prompt_style}" in
-        standard|default) PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ ' ;;
+        standard|default) prompt_standard_style ;;
+        standard-mono|default-mono) prompt_standard_mono_style ;;
         tweaked) prompt_tweaked_style ;;
         extensive) prompt_extensive_style ;;
+        fast) PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ ' ;;
+        fast-mono) PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ ' ;;
         minimal) PS1='\$ ' ;;
         kirby) prompt_kirby_style ;;
         erection) prompt_erection_style ;;
@@ -599,6 +607,20 @@ prompt_standard_style() {
     prompt_pre_command
 
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+
+    prompt_post_command
+}
+
+
+#
+# Sets $PS1 to the default bash color prompt style.
+#
+# This is meant to be run as the last step of $PROMPT_COMMAND.
+#
+prompt_standard_mono_style() {
+    prompt_pre_command
+
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 
     prompt_post_command
 }
