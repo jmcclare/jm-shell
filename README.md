@@ -60,11 +60,21 @@ does this no matter how those are set.
 
 ### Other Included Prompt Styles ###
 
-#### standard ####
+#### standard and standard-mono ####
 
-Also named `default`. This is the default Bash color prompt style. Setting this
-style also skips the background jobs. It’s a bit better for performance on an
-overloaded system.
+This is the default Bash prompt style configured in most default `~/.bashrc`
+files.
+
+Set `prompt_style` to `standard` or `default` for the standard Bash color
+prompt. Set it to `standard-mono` or `default-mono` for the non‐color version.
+
+#### fast and fast-mono ####
+
+This  the default Bash color prompt style. Setting this style also skips the
+background jobs. It’s a bit better for performance on an overloaded system.
+
+Set `prompt_style` to `fast for the standard Bash color prompt. Set it to
+`fast-mono` for the non‐color version.
 
 #### tweaked ####
 
