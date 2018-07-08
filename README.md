@@ -113,12 +113,33 @@ Bash prompt variables. A bit better for performance than the extensive style.
 
 ## Installation ##
 
-Copy or symlink `ps1`, `colors.sh`, and `color_unset.sh` to `~/.local/lib/bash`
+Clone this repository into `~/.local/lib/jm-shell` with:
+
+```bash
+git clone git@github.com:jmcclare/jm-shell.git ~/.local/lib/jm-shell
+```
 
 Add the following to your `~/.bashrc`
 
 ```bash
+# Source jm-shell custom prompt if it exists.
+if [ -f "$HOME/.local/lib/jm-shell/ps1" ]
+then
+    source "$HOME/.local/lib/jm-shell/ps1"
+fi
+```
+
+You can also clone this repo anywhere you want, then copy or symlink `ps1`,
+`colors.sh`, and `color_unset.sh` into a directory like `~/.local/lib/bash`
+
+Then add the following to your `~/.bashrc`
+
+```bash
 source ~/local/lib/bash/ps1
+if [ -f "$HOME/local/lib/bash/ps1" ]
+then
+    source "$HOME/local/lib/bash/ps1"
+fi
 ```
 
 If you are using anything that adds something to your Bash `$PROMPT_COMMAND`
