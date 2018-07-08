@@ -829,10 +829,30 @@ prompt_extensive_style() {
 
 
     # Add an indicator if we are in a desk
-    if [ ! -z "${DESK_NAME}" ]; then
+    if [ ! -z "${DESK_NAME}" ]
+    then
         local desk_base="─── desk: ${DESK_NAME} "
         local desk="─── desk: \[${BBlue}\]${DESK_NAME}${divider_color} "
         let fillsize=${fillsize}-${#desk_base}
+    fi
+
+
+    # Add an indicator if we are in a Python virtualenv
+    if [ ! -z "${VIRTUAL_ENV}" ]
+    then
+        local virtualenv_name="$(basename $VIRTUAL_ENV)"
+        # Add an extra space here after the snake character so that bash will
+        # count an extra character for it for the fillsize.
+        local virtualenv_base="─── 🐍 ${virtualenv_name} "
+        local virtualenv="─── \[${Blue}\]🐍\[${Yellow}\]${virtualenv_name}${divider_color} "
+
+        # The clever snake univoce character (🐍) was causing problems because
+        # in some terminals (like Alacritty) double wide characters take up two
+        # spaces while in others (RoxTErm, gnome-terminal) they take up only 1.
+        # I changed it to a simple capital 'S' for 'snake'.
+        local virtualenv_base="─── S ${virtualenv_name} "
+        local virtualenv="─── \[${Blue}\]S \[${Yellow}\]${virtualenv_name}${divider_color} "
+        let fillsize=${fillsize}-${#virtualenv_base}
     fi
 
 
@@ -870,7 +890,7 @@ prompt_extensive_style() {
     #fi
 
     # Add the divider/status line
-    PS1=${PS1}${divider_color}${divider_indent}${exit_status}${elapsed_time}${fill}${mc}${vim}${desk}${load}${battery_icon}${datetime}
+    PS1=${PS1}${divider_color}${divider_indent}${exit_status}${elapsed_time}${fill}${mc}${vim}${virtualenv}${desk}${load}${battery_icon}${datetime}
 
 
     # Start next line and reset fillsize

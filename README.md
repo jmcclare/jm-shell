@@ -15,7 +15,7 @@ shows some relevent info about the last command and the current environment.
 * time last command finished on the right
 * shows error code of last command, if any
 * shows total time of last command if over 4 seconds
-* indicates if inside Vim, Midnight Commander, or [Desk](https://github.com/jamesob/desk)
+* indicates if inside Vim, Midnight Commander, Python virtualenv (S), or [Desk](https://github.com/jamesob/desk)
 * shows current system load average if over 1, in red if over 2
 * shows battery charge status if laptop battery is less than full
 
