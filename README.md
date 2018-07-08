@@ -73,7 +73,7 @@ prompt. Set it to `standard-mono` or `default-mono` for the non‐color version.
 This  the default Bash color prompt style. Setting this style also skips the
 background jobs. It’s a bit better for performance on an overloaded system.
 
-Set `prompt_style` to `fast for the standard Bash color prompt. Set it to
+Set `prompt_style` to `fast` for the standard Bash color prompt. Set it to
 `fast-mono` for the non‐color version.
 
 #### tweaked ####
