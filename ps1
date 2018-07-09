@@ -1164,7 +1164,7 @@ prompt_handle_debug() {
 
         #
         # Redraw the entered command in bold yellow for the "extensive" prompt
-        # style only.
+        # style only. We test for blank here because extensive is the default.
         #
         if [[ $PROMPT_STYLE == extensive || $PROMPT_STYLE == extensive-dark || $PROMPT_STYLE == '' ]]
         then
