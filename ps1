@@ -10,9 +10,9 @@
 #   prompt_off - sets our 'minimal' prompt style, good for troubleshooting,
 #       low-res or legacy terminals.
 #
-# To set other styles, change the $prompt_style variable, like so:
+# To set other styles, change the $PROMPT_STYLE variable, like so:
 #
-#   prompt_style=kirby
+#   PROMPT_STYLE=kirby
 #
 # Available prompt styles:
 #
@@ -60,9 +60,9 @@ prompt_main() {
 
     # Ensure the prompt style begins set to extensive (my favourite).
     #
-    # You can switch to another style at any time by setting the prompt_style
+    # You can switch to another style at any time by setting the PROMPT_STYLE
     # variable to its name. See prompt_command() for the proper names.
-    #prompt_style=extensive
+    #PROMPT_STYLE=extensive
 
     # Reset this again here to make sure it doesn’t have ignorespace. We will
     # make sure commands beginning with a space are not saved permanently in
@@ -514,7 +514,7 @@ prompt_log_shell_command() {
 # Called just before $PS1 (the prompt) is displayed.
 #
 # Do some necessary backgorund work and set the prompt to whatever
-# $prompt_style specifies.
+# $PROMPT_STYLE specifies.
 #
 # Initialize this to Bash’s true to tell anything concerned that this is a
 # newly opened interactive shell. We set this to false at the end of
@@ -538,7 +538,7 @@ prompt_command() {
     #
     let prompt_debug_marks=0
 
-    # Set $PS1 according to what $prompt_style is set to. We either set $PS1
+    # Set $PS1 according to what $PROMPT_STYLE is set to. We either set $PS1
     # directly here, or call a function that sets it and also runs the pre and
     # post commands.
     #
@@ -546,7 +546,7 @@ prompt_command() {
     #   * extensive-mono
     #   * extensive-dark — for light backgrounds
     #
-    case "${prompt_style}" in
+    case "${PROMPT_STYLE}" in
         standard|default) prompt_standard_style ;;
         standard-mono|default-mono) prompt_standard_mono_style ;;
         tweaked) prompt_tweaked_style ;;
@@ -683,7 +683,7 @@ prompt_extensive_style() {
 
     local divider_color="\[${IBlack}\]"
     local jobs_color="\[${Green}\]"
-    if [[ $prompt_style == 'extensive-dark' ]]
+    if [[ $PROMPT_STYLE == 'extensive-dark' ]]
     then
         local location_color="\[${Blue}\]"
         local prompt_color="\[${BBlue}\]"
@@ -846,7 +846,7 @@ prompt_extensive_style() {
     # Add an indicator if we are in a Python virtualenv
     if [ ! -z "${VIRTUAL_ENV}" ]
     then
-        if [[ $prompt_style == extensive-dark ]]
+        if [[ $PROMPT_STYLE == extensive-dark ]]
         then
             local py_symbol_color=$BBlue
             local virtualenv_name_color=$Blue
@@ -1034,7 +1034,7 @@ prompt_divider_style() {
     prompt_pre_command
     
     # Emilis' original status line
-    #PS1="$status_style"'$fill \t\n'"$prompt_style"'${debian_chroot:+($debian_chroot)}\u@\h:\w [\j]\$'"$command_style "
+    #PS1="$status_style"'$fill \t\n'"$PROMPT_STYLE"'${debian_chroot:+($debian_chroot)}\u@\h:\w [\j]\$'"$command_style "
     
     # Our status line adds a few more placements of style variables and the current
     # number of running processes.
@@ -1052,8 +1052,8 @@ prompt_divider_style() {
     # Set some styles
     local reset_style='\[\033[00m\]'
     local status_style=$reset_style'\[\033[0;90m\]' # gray color; use 0;37m for white
-    #local prompt_style=$reset_style
-    local prompt_style='\[\033[0;33m\]'	# orange
+    #local PROMPT_STYLE=$reset_style
+    local PROMPT_STYLE='\[\033[0;33m\]'	# orange
     #local credentials_style='\[\033[0;32m\]'	# regular green
     local credentials_style='\[\033[0;31m\]'	# orange
     local hostname_style='\[\033[0;33m\]'	# orange
@@ -1064,10 +1064,10 @@ prompt_divider_style() {
     local command_style=$reset_style
 
     # grey style
-    PS1=${status_style}${fill}' \d, \t\n'"$prompt_style"'${debian_chroot:+($debian_chroot)}\u@\h'"$prompt_style"':'"$prompt_style"'\w'"$prompt_style"' [\j]\$'"$command_style "
+    PS1=${status_style}${fill}' \d, \t\n'"$PROMPT_STYLE"'${debian_chroot:+($debian_chroot)}\u@\h'"$PROMPT_STYLE"':'"$PROMPT_STYLE"'\w'"$PROMPT_STYLE"' [\j]\$'"$command_style "
 
     # colourful style
-    #PS1=${status_style}${fill}' \d, \t\n'"$credentials_style"'${debian_chroot:+($debian_chroot)}\u@\h'"$prompt_style"':'"$path_style"'\w'"$prompt_style"' ['"$processes_style"'\j'"$prompt_style"']\$'"$command_style "
+    #PS1=${status_style}${fill}' \d, \t\n'"$credentials_style"'${debian_chroot:+($debian_chroot)}\u@\h'"$PROMPT_STYLE"':'"$path_style"'\w'"$PROMPT_STYLE"' ['"$processes_style"'\j'"$PROMPT_STYLE"']\$'"$command_style "
     
     prompt_post_command
 }
@@ -1166,7 +1166,7 @@ prompt_handle_debug() {
         # Redraw the entered command in bold yellow for the "extensive" prompt
         # style only.
         #
-        if [[ $prompt_style == extensive || $prompt_style == extensive-dark ]]
+        if [[ $PROMPT_STYLE == extensive || $PROMPT_STYLE == extensive-dark || $PROMPT_STYLE == '' ]]
         then
             #
             # If a blank command was entered, ${BASH_COMMAND} will remain set to
@@ -1187,7 +1187,7 @@ prompt_handle_debug() {
                 local command=$(echo "$(history | tail -n1)" | sed 's/[ ]*[0-9]*  //')
 
                 # change the color to the appropriate command color
-                if [[ $prompt_style == extensive-dark ]]
+                if [[ $PROMPT_STYLE == extensive-dark ]]
                 then
                     # Change to bold blue
                     echo -ne '\e[1;34m'

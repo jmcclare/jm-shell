@@ -65,7 +65,7 @@ does this no matter how those are set.
 This is the default Bash prompt style configured in most default `~/.bashrc`
 files.
 
-Set `prompt_style` to `standard` or `default` for the standard Bash color
+Set `PROMPT_STYLE` to `standard` or `default` for the standard Bash color
 prompt. Set it to `standard-mono` or `default-mono` for the non‐color version.
 
 #### fast and fast-mono ####
@@ -73,7 +73,7 @@ prompt. Set it to `standard-mono` or `default-mono` for the non‐color version.
 This  the default Bash color prompt style. Setting this style also skips the
 background jobs. It’s a bit better for performance on an overloaded system.
 
-Set `prompt_style` to `fast` for the standard Bash color prompt. Set it to
+Set `PROMPT_STYLE` to `fast` for the standard Bash color prompt. Set it to
 `fast-mono` for the non‐color version.
 
 #### tweaked ####
@@ -84,9 +84,9 @@ also runs the background jobs.
 #### extensive ####
 
 The style described at the top. This is the default style if you don’t set
-`prompt_style`.
+`PROMPT_STYLE`.
 
-Set `prompt_style` to `extensive-dark` for a dark version that is more legible
+Set `PROMPT_STYLE` to `extensive-dark` for a dark version that is more legible
 on white terminal backgrounds.
 
 #### minimal ####
@@ -154,10 +154,10 @@ The prompt command this PS1 adds must be the first part of your
 ## Configuration ##
 
 You can set one of the other styles any time, or in your `~/.bashrc` by setting
-`prompt_style`, like this:
+`PROMPT_STYLE`, like this:
 
 ```bash
-prompt_style=kirby
+PROMPT_STYLE=kirby
 ```
 
 The default prompt style is `extensive`.
