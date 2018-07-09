@@ -683,9 +683,15 @@ prompt_extensive_style() {
 
     local divider_color="\[${IBlack}\]"
     local jobs_color="\[${Green}\]"
-    local location_color="\[${Yellow}\]"
+    if [[ $prompt_style == 'extensive-dark' ]]
+    then
+        local location_color="\[${Blue}\]"
+        local prompt_color="\[${BBlue}\]"
+    else
+        local location_color="\[${Yellow}\]"
+        local prompt_color="\[${BYellow}\]"
+    fi
     local ro_location_color="\[${Color_Off}\]"
-    local prompt_color="\[${BYellow}\]"
 
 
     # Add the last command's exit status, if not zero.
@@ -840,18 +846,28 @@ prompt_extensive_style() {
     # Add an indicator if we are in a Python virtualenv
     if [ ! -z "${VIRTUAL_ENV}" ]
     then
+        if [[ $prompt_style == extensive-dark ]]
+        then
+            local py_symbol_color=$BBlue
+            local virtualenv_name_color=$Blue
+        else
+            local py_symbol_color=$BBlue
+            local virtualenv_name_color=$Yellow
+        fi
+
         local virtualenv_name="$(basename $VIRTUAL_ENV)"
+
         # Add an extra space here after the snake character so that bash will
         # count an extra character for it for the fillsize.
         local virtualenv_base="─── 🐍 ${virtualenv_name} "
-        local virtualenv="─── \[${Blue}\]🐍\[${Yellow}\]${virtualenv_name}${divider_color} "
+        local virtualenv="─── \[${py_symbol_color}\]🐍\[${virtualenv_name_color}\]${virtualenv_name}${divider_color} "
 
         # The clever snake univoce character (🐍) was causing problems because
         # in some terminals (like Alacritty) double wide characters take up two
         # spaces while in others (RoxTErm, gnome-terminal) they take up only 1.
         # I changed it to a simple capital 'S' for 'snake'.
         local virtualenv_base="─── S ${virtualenv_name} "
-        local virtualenv="─── \[${Blue}\]S \[${Yellow}\]${virtualenv_name}${divider_color} "
+        local virtualenv="─── \[${py_symbol_color}\]S \[${virtualenv_name_color}\]${virtualenv_name}${divider_color} "
         let fillsize=${fillsize}-${#virtualenv_base}
     fi
 
@@ -1150,7 +1166,7 @@ prompt_handle_debug() {
         # Redraw the entered command in bold yellow for the "extensive" prompt
         # style only.
         #
-        if [ "${prompt_style}" = extensive ]
+        if [[ $prompt_style == extensive || $prompt_style == extensive-dark ]]
         then
             #
             # If a blank command was entered, ${BASH_COMMAND} will remain set to
@@ -1169,8 +1185,17 @@ prompt_handle_debug() {
                 #echo -ne '\033[2C'
                 # get the command just entered into the history
                 local command=$(echo "$(history | tail -n1)" | sed 's/[ ]*[0-9]*  //')
-                # change the color to bold yellow
-                echo -ne '\e[1;33m'
+
+                # change the color to the appropriate command color
+                if [[ $prompt_style == extensive-dark ]]
+                then
+                    # Change to bold blue
+                    echo -ne '\e[1;34m'
+                else
+                    # Change to bold yellow
+                    echo -ne '\e[1;33m'
+                fi
+
                 # Get the prompt symbol for this user (# for root, $ otherwise)
                 if [ "${UID}" = "0" ]; then
                     local prompt_symbol="#"

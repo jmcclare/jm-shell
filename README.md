@@ -86,6 +86,9 @@ also runs the background jobs.
 The style described at the top. This is the default style if you don’t set
 `prompt_style`.
 
+Set `prompt_style` to `extensive-dark` for a dark version that is more legible
+on white terminal backgrounds.
+
 #### minimal ####
 
 Nothing but a grey dollar sign prompt. Also doesn’t run the background jobs. A
