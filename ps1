@@ -557,7 +557,7 @@ prompt_command() {
         kirby) prompt_kirby_style ;;
         erection) prompt_erection_style ;;
         divider) prompt_divider_style ;;
-        *) prompt_standard_style ;;
+        *) prompt_extensive_style ;;
     esac
 
     # After the first prompt_command has been run we no longer consider the
