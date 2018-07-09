@@ -1187,6 +1187,9 @@ prompt_handle_debug() {
                 local command=$(echo "$(history | tail -n1)" | sed 's/[ ]*[0-9]*  //')
 
                 # change the color to the appropriate command color
+                #
+                # I can’t get the colors set properly here with the variables
+                # in colors.sh, so I have to echo the escape codes this way.
                 if [[ $PROMPT_STYLE == extensive-dark ]]
                 then
                     # Change to bold blue
