@@ -1014,7 +1014,11 @@ prompt_extensive_style() {
     fi
 
 
-    PS1=${PS1}"\n${prompt_color}\$\[${Color_Off}\] "
+    # Set it to the regular text colour (Color_Off) before the newline so that
+    # the next line is marked with regular text colour instead of whatever we
+    # left it on above. Otherwise the cursor will be drawn with those colors,
+    # despite what we end the prompt with.
+    PS1=${PS1}"\[${Color_Off}\]\n${prompt_color}\$\[${Color_Off}\] "
 
 
     export PS1
