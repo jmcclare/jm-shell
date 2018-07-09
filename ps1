@@ -1174,7 +1174,8 @@ prompt_handle_debug() {
             # our configuration.  Check for that before digging out the last
             # history command and re-printing it.
             #
-            if [ ! "${BASH_COMMAND}" = "prompt_command" ]; then
+            if [ ! "${BASH_COMMAND}" = "prompt_command" ]
+            then
                 # Move the cursor back up to the previous line and re-draw the command
                 # in bold yellow
 
@@ -1200,7 +1201,8 @@ prompt_handle_debug() {
                 fi
 
                 # Get the prompt symbol for this user (# for root, $ otherwise)
-                if [ "${UID}" = "0" ]; then
+                if [ "${UID}" = "0" ]
+                then
                     local prompt_symbol="#"
                 else
                     local prompt_symbol="$"
