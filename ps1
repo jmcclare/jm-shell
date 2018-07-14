@@ -848,11 +848,21 @@ prompt_extensive_style() {
     then
         if [[ $PROMPT_STYLE == extensive-dark ]]
         then
-            local py_symbol_color=$BBlue
-            local virtualenv_name_color=$Blue
+            # One of the official Python colours
+            #local py_symbol_color=$BBlue
+            #local virtualenv_name_color=$Blue
+
+            # Typical reptilian green
+            local py_symbol_color=$BGreen
+            local virtualenv_name_color=$Green
         else
-            local py_symbol_color=$BBlue
-            local virtualenv_name_color=$Yellow
+            # Official Python colours
+            #local py_symbol_color=$BBlue
+            #local virtualenv_name_color=$Yellow
+
+            # Typical reptilian green
+            local py_symbol_color=$BGreen
+            local virtualenv_name_color=$Green
         fi
 
         local virtualenv_name="$(basename $VIRTUAL_ENV)"
