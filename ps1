@@ -916,7 +916,7 @@ prompt_extensive_style() {
     #fi
 
     # Add the divider/status line
-    PS1=${PS1}${divider_color}${divider_indent}${exit_status}${elapsed_time}${fill}${mc}${vim}${virtualenv}${desk}${load}${battery_icon}${datetime}
+    PS1=${PS1}${divider_color}${divider_indent}${exit_status}${elapsed_time}${fill}${mc}${vim}${desk}${virtualenv}${load}${battery_icon}${datetime}
 
 
     # Start next line and reset fillsize
