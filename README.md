@@ -31,8 +31,8 @@ shows some relevent info about the last command and the current environment.
 ### Prompt ###
 
 * simple, bold yellow dollar sign
-* text is standard grey while typing / autocompleting
-* command is redrawn in bold yellow after entering
+* input is standard grey while typing / autocompleting
+* input is redrawn in bold yellow after entering
 
 ### Background Jobs ###
 
@@ -78,7 +78,7 @@ Set `PROMPT_STYLE` to `fast` for the standard Bash color prompt. Set it to
 
 #### tweaked ####
 
-A slight tweak of the default Bash color prompt style. Unlike the standard, it
+A slight tweak of the default Bash color prompt style. Unlike the default, it
 also runs the background jobs.
 
 #### extensive ####
@@ -145,7 +145,7 @@ then
 fi
 ```
 
-If you are using anything that adds something to your Bash `$PROMPT_COMMAND`
+If you are using anything that adds something to your Bash `$PROMPT_COMMAND`,
 like [fzf](https://github.com/junegunn/fzf), make sure you source `ps1` first.
 The prompt command this PS1 adds must be the first part of your
 `$PROMPT_COMMAND`.
@@ -153,8 +153,8 @@ The prompt command this PS1 adds must be the first part of your
 
 ## Configuration ##
 
-You can set one of the other styles any time, or in your `~/.bashrc` by setting
-`PROMPT_STYLE`, like this:
+You can set one of the other styles any time, or in your `~/.bashrc`, by
+setting `PROMPT_STYLE`, like this:
 
 ```bash
 PROMPT_STYLE=kirby
