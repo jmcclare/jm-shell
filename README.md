@@ -171,6 +171,6 @@ BASHSHELLLOGFILE=~/.bash-shell.log
 The default location is `~/.local/share/bash/shell.log`
 
 The history updater uses the standard Bash variables `HISTFILE`,
-`HISTFILESIZE`, and `HISTSIZE`. It assumes `HISTCONTROL` is set to
+`HISTFILESIZE`, and `HISTSIZE`. It behaves as though `HISTCONTROL` is set to
 `ignoreboth:erasedups` and it does a better job than both of those options
 normally do.
