@@ -53,7 +53,8 @@
 #
 
 
-prompt_main() {
+function prompt_main
+{
     #
     # Properly set our standard $PROMPT_COMMAND.
     #
@@ -92,7 +93,8 @@ prompt_main() {
 # $1 - number of characters to output. Defaults to 2
 # $2 - divider character to use. Defaults to long dash: ─
 # 
-prompt_fill() {
+function prompt_fill
+{
     local length
     local divider
 
@@ -131,7 +133,8 @@ prompt_fill() {
 #
 # Other styles are free to call this as well.
 #
-prompt_pre_command() {
+function prompt_pre_command
+{
 
     #
     # $prompt_enter_seconds is initialized by the debug handler,
@@ -380,7 +383,8 @@ prompt_pre_command() {
 }
 
 
-prompt_post_command() {
+function prompt_post_command
+{
 	# set a harmless local dummy variable to keep this function from being
 	# blank.
 	local a=0
@@ -403,7 +407,8 @@ prompt_post_command() {
 # You should also run it in the background because it’s fine in a subshell and
 # nothing else depends on it.
 #
-prompt_append_shell_log() {
+function prompt_append_shell_log
+{
     local current_command_entry="$(history 1)"
 
 
@@ -489,7 +494,8 @@ prompt_append_shell_log() {
 # This assumes the command text has any leading space or command numbers from
 # the output of `history` already removed. It logs the command text as‐is.
 #
-prompt_log_shell_command() {
+function prompt_log_shell_command
+{
     if [ -z "${1}" ]
     then
         return
@@ -544,7 +550,8 @@ prompt_log_shell_command() {
 # newly opened interactive shell. We set this to false at the end of
 # prompt_command.
 prompt_new_shell=0
-prompt_command() {
+function prompt_command
+{
     # Set this first so that we actually get the exit status of the last
     # command run on the prompt, not a command run inside here.
     local last_prompt_command_exit_status=$?
@@ -590,7 +597,8 @@ prompt_command() {
 }
 
 
-prompt_git() {
+function prompt_git
+{
     git branch &>/dev/null || return 1
     HEAD="$(git symbolic-ref HEAD 2>/dev/null)"
     BRANCH="${HEAD##*/}"
@@ -598,13 +606,15 @@ prompt_git() {
         grep -E 'working (directory|tree) clean')" ]] || STATUS="!"
     printf '(git:%s)' "${BRANCH:-unknown}${STATUS}"
 }
-prompt_hg() {
+function prompt_hg
+{
     hg branch &>/dev/null || return 1
     BRANCH="$(hg branch 2>/dev/null)"
     [[ -n "$(hg status 2>/dev/null)" ]] && STATUS="!"
     printf '(hg:%s)' "${BRANCH:-unknown}${STATUS}"
 }
-prompt_svn() {
+function prompt_svn
+{
     svn info &>/dev/null || return 1
     URL="$(svn info 2>/dev/null | \
         awk -F': ' '$1 == "URL" {print $2}')"
@@ -617,7 +627,8 @@ prompt_svn() {
     [[ -n "$(svn status 2>/dev/null)" ]] && STATUS="!"
     printf '(svn:%s)' "${BRANCH:-unknown}${STATUS}"
 }
-prompt_vcs() {
+function prompt_vcs
+{
     prompt_git || prompt_svn || prompt_hg
 }
 
@@ -627,7 +638,8 @@ prompt_vcs() {
 #
 # This is meant to be run as the last step of $PROMPT_COMMAND.
 #
-prompt_standard_style() {
+function prompt_standard_style
+{
     prompt_pre_command
 
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
@@ -641,7 +653,8 @@ prompt_standard_style() {
 #
 # This is meant to be run as the last step of $PROMPT_COMMAND.
 #
-prompt_standard_mono_style() {
+function prompt_standard_mono_style
+{
     prompt_pre_command
 
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
@@ -657,7 +670,8 @@ prompt_standard_mono_style() {
 #
 # This is meant to be run as the last step of $PROMPT_COMMAND.
 #
-prompt_tweaked_style() {
+function prompt_tweaked_style
+{
     prompt_pre_command
 
     # The \j shows the number of background jobs.
@@ -672,7 +686,8 @@ prompt_tweaked_style() {
 #
 # This is meant to be run as the last step of $PROMPT_COMMAND.
 #
-prompt_minimal_style() {
+function prompt_minimal_style
+{
     prompt_pre_command
 
     PS1='\$ '
@@ -686,7 +701,8 @@ prompt_minimal_style() {
 #
 # This is meant to be run as the last step of $PROMPT_COMMAND.
 #
-prompt_extensive_style() {
+function prompt_extensive_style
+{
     prompt_pre_command
 
     # max before displaying elapsed time
@@ -1073,7 +1089,8 @@ prompt_extensive_style() {
 #
 # Sets a stylized prompt with a divider above it:
 #
-prompt_divider_style() {
+function prompt_divider_style
+{
     prompt_pre_command
     
     # Emilis' original status line
@@ -1119,7 +1136,8 @@ prompt_divider_style() {
 #
 # Sets a ridiculous dancing Kirby prompt.
 #
-prompt_kirby_style() {
+function prompt_kirby_style
+{
     prompt_pre_command
 
     #uncomment one of the KIRBY_FRAMES
@@ -1173,7 +1191,8 @@ prompt_enter_seconds=0
 # ~/.bashrc loads this file. Our $PROMPT_COMMAND will initialize it properly to
 # 0 when it is first displayed.
 prompt_debug_marks=2
-prompt_handle_debug() {
+function prompt_handle_debug
+{
     # For debugging
     #local current_command_entry="$(history 1)"
 	#echo "In handle_debug, history 1: ${current_command_entry}, prompt_debug_marks: ${prompt_debug_marks}" >> /tmp/shell-log-debug
@@ -1278,7 +1297,8 @@ prompt_handle_debug() {
 trap 'prompt_handle_debug' DEBUG
 
 
-prompt_handle_exit() {
+function prompt_handle_exit
+{
     # For debugging
     #current_command_entry="$(history 1)"
     #echo "In prompt exit trap, DESK_NAME: $DESK_NAME, current_command: $current_command_entry, BASH_COMMAND: $BASH_COMMAND" >> /tmp/shell-log-debug
