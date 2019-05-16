@@ -225,7 +225,7 @@ prompt_pre_command() {
     # history to the history file over and over. It seems to only write lines
     # from the current shell that have not already been written to the file.
     # This is probably because of the erasedups option I add to the HISTCONTROL
-    # environment variable in ~/.bashrc
+    # environment variable in prompt_main.
     #
     # This only prevents duplicate entries in the current shell's list. It does
     # not clear duplicates in the history file when it appends its list there.
@@ -267,6 +267,7 @@ prompt_pre_command() {
     # Have awk remove duplicate lines.
     # have grep filter out lines that start with spaces.
     # Switch it back to original order and output to a temp file.
+    # Overwrite $HISTFILE with the temp file.
     if [ -f $hsttmp ]
     then
         tac $HISTFILE | awk '!x[$0]++' | grep -E '^[^ ]' | tac > $hsttmp && mv $hsttmp $HISTFILE
