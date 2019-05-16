@@ -161,3 +161,22 @@ The history updater uses the standard Bash variables `HISTFILE`,
 `HISTFILESIZE`, and `HISTSIZE`. It behaves as though `HISTCONTROL` is set to
 `ignoreboth:erasedups` and it does a better job than both of those options
 normally do.
+
+The default indicator for the Python virtual environment name is ‘V’ for “virtual environment”. You can change it by setting the `PROMPT_VENV_INDICATOR` variable.
+
+Example:
+
+```bash
+PROMPT_VENV_INDICATOR=venv
+```
+
+If you use a wide character like ‘🐍’ (snake) it may push the right side of the
+status line off the screen. To fix this, add a space to the
+`PROMPT_VENV_INDICATOR_PADDING` variable for each of these characters.
+
+Example:
+
+```
+PROMPT_VENV_INDICATOR=🐍
+PROMPT_VENV_INDICATOR_PADDING=' '
+```

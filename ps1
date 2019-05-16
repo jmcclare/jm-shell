@@ -867,17 +867,22 @@ prompt_extensive_style() {
 
         local virtualenv_name="$(basename $VIRTUAL_ENV)"
 
-        # Add an extra space here after the snake character so that bash will
-        # count an extra character for it for the fillsize.
-        local virtualenv_base="─── 🐍 ${virtualenv_name} "
-        local virtualenv="─── \[${py_symbol_color}\]🐍\[${virtualenv_name_color}\]${virtualenv_name}${divider_color} "
+        if [ -z "${PROMPT_VENV_INDICATOR}" ]
+        then
+            #PROMPT_VENV_INDICATOR='🐍'
+            # The clever snake unicode character (🐍) was causing problems because
+            # different terminal emulators handle it differently. In some you
+            # need to count it as 2 characters for spacing and add an extra
+            # space to $virtualenv_base. In others it only takes up 1. Some
+            # terminal and font combinations don’t even render extended
+            # characters like this.
+            #
+            # I changed the default to V for “virtual environment”.
+            PROMPT_VENV_INDICATOR='V'
+        fi
 
-        # The clever snake univoce character (🐍) was causing problems because
-        # in some terminals (like Alacritty) double wide characters take up two
-        # spaces while in others (RoxTErm, gnome-terminal) they take up only 1.
-        # I changed it to a simple capital 'S' for 'snake'.
-        local virtualenv_base="─── S ${virtualenv_name} "
-        local virtualenv="─── \[${py_symbol_color}\]S \[${virtualenv_name_color}\]${virtualenv_name}${divider_color} "
+        local virtualenv_base="─── ${PROMPT_VENV_INDICATOR}${PROMPT_VENV_INDICATOR_PADDING} ${virtualenv_name} "
+        local virtualenv="─── \[${py_symbol_color}\]${PROMPT_VENV_INDICATOR} \[${virtualenv_name_color}\]${virtualenv_name}${divider_color} "
         let fillsize=${fillsize}-${#virtualenv_base}
     fi
 
