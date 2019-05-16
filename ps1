@@ -501,12 +501,35 @@ prompt_log_shell_command() {
         local bash_shell_logfile=~/.local/share/bash/shell.log
     fi
 
-    if [ ! -d "$(dirname ${bash_shell_logfile})" ]
+    if [ ! -d "$(dirname "${bash_shell_logfile}")" ]
     then
-        mkdir -p "$(dirname ${bash_shell_logfile})"
+        mkdir -p "$(dirname "${bash_shell_logfile}")"
     fi
 
-    echo "$(date)	${PWD}	${1}" >> "${bash_shell_logfile}"
+    if [ -z "${BASHSHELLLOGFILELEN}" ]
+    then
+        if (("${HISTFILESIZE}" >= 0))
+        then
+            BASHSHELLLOGFILELEN=HISTFILESIZE
+        else
+            BASHSHELLLOGFILELEN=10000
+        fi
+    fi
+
+    if (("${BASHSHELLLOGFILELEN}" > 0))
+    then
+        echo "$(date)	${PWD}	${1}" >> "${bash_shell_logfile}"
+
+        # Trim the file.
+        /bin/sed -i -e :a -e '$q;N;'"${BASHSHELLLOGFILELEN}"',$D;ba' "${bash_shell_logfile}"
+
+    elif [[ ${BASHSHELLLOGFILELEN} == 0 ]]
+    then
+        if [ -f "${bash_shell_logfile}" ]
+        then
+            rm "${bash_shell_logfile}"
+        fi
+    fi
 }
 
 

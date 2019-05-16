@@ -118,13 +118,13 @@ Bash prompt variables. A bit better for performance than the extensive style.
 
 Clone this repository into a directory like `~/.local/lib/jm-shell` with:
 
-```bash
+```
 git clone git@github.com:jmcclare/jm-shell.git ~/.local/lib/jm-shell
 ```
 
 Add the following to your `~/.bashrc`
 
-```bash
+```
 # Source jm-shell custom prompt if it exists.
 if [ -f "$HOME/.local/lib/jm-shell/ps1" ]
 then
@@ -143,19 +143,24 @@ The prompt command this PS1 adds must be the first part of your
 You can set one of the other styles any time, or in your `~/.bashrc`, by
 setting `PROMPT_STYLE`, like this:
 
-```bash
+```
 PROMPT_STYLE=kirby
 ```
 
 The default prompt style is `extensive`.
 
-You can change the location of the shell log file by setting `$BASHSHELLLOGFILE`.
+You can change the location and size of the shell log file by setting
+`$BASHSHELLLOGFILE` and `BASHSHELLLOGFILELEN`.
 
-```bash
+```
 BASHSHELLLOGFILE=~/.bash-shell.log
+BASHSHELLLOGFILELEN=1000000
 ```
 
 The default location is `~/.local/share/bash/shell.log`
+
+`BASHSHELLLOGFILELEN` defaults to the value of `HISTFILESIZE`, or 10000, if
+`HISTFILESIZE` is not valid.
 
 The history updater uses the standard Bash variables `HISTFILE`,
 `HISTFILESIZE`, and `HISTSIZE`. It behaves as though `HISTCONTROL` is set to
@@ -164,17 +169,13 @@ normally do.
 
 The default indicator for the Python virtual environment name is ‘V’ for “virtual environment”. You can change it by setting the `PROMPT_VENV_INDICATOR` variable.
 
-Example:
-
-```bash
+```
 PROMPT_VENV_INDICATOR=venv
 ```
 
 If you use a wide character like ‘🐍’ (snake) it may push the right side of the
 status line off the screen. To fix this, add a space to the
 `PROMPT_VENV_INDICATOR_PADDING` variable for each of these characters.
-
-Example:
 
 ```
 PROMPT_VENV_INDICATOR=🐍
