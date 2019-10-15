@@ -520,7 +520,11 @@ prompt_log_shell_command() {
 
     if [ -z "${BASHSHELLLOGFILELEN}" ]
     then
-        if (("${HISTFILESIZE}" >= 0))
+        if [ -z "${HISTFILESIZE}" ]
+        then
+            BASHSHELLLOGFILELEN=10000
+
+        elif (("${HISTFILESIZE}" >= 0))
         then
             BASHSHELLLOGFILELEN=HISTFILESIZE
         else
@@ -770,8 +774,16 @@ prompt_extensive_style() {
     # Show the system load average from the past five minutes if it's >= the
     # threshold (above). Highlight the number if it's >= the second threshold.
 
-    local load_stat=$(cut -d' ' -f1 /proc/loadavg)
-    local int_load_stat=$(echo $load_stat | cut -d. -f1)
+    if [ -f /proc/loadavg ]
+    then
+        local load_stat=$(cut -d' ' -f1 /proc/loadavg)
+        local int_load_stat=$(echo $load_stat | cut -d. -f1)
+    else
+        # Load average cannot be retrieved on this system. Fill in harmless
+        # values that will not trigger status output.
+        local load_stat='1.00'
+        local int_load_stat=${load_threshold_1}
+    fi
 
     if ((${int_load_stat} > ${load_threshold_1})); then
         local load_stat_color=${divider_color}
