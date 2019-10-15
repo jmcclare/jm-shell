@@ -573,8 +573,7 @@ prompt_log_shell_command() {
         # leaves dotfiles behind and does not clean them up.
         #
         # Because of BSD sed’s issues I have split this into two different
-        # methods. For GNU sed it uses the -i option and even runs in a
-        # subshell to speed things up.
+        # methods. For GNU sed it uses the -i option.
         #
         # For BSD sed I reproduce the effect of the -i option manually by
         # outputting to a temp file, then overwriting the original.
