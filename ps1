@@ -567,17 +567,23 @@ prompt_log_shell_command() {
 
         # Trim the file.
         #
-        # My clunky way of determining whether or not we are using BSD sed. The
-        # -i option is complete incompatible between these two versions. My
-        # choices are use this clunky hack or reproduce the -i option myself by
-        # making my own temp file.
+        # The if statement is my clunky way of determining whether or not we
+        # are using BSD sed. The -i option’s usage is completely incompatible
+        # betwen BSD and GNU sed. Worse, the BSD version of sed in Mac OS
+        # leaves dotfiles behind and does not clean them up.
+        #
+        # Because of BSD sed’s issues I have split this into two different
+        # methods. For GNU sed it uses the -i option and even runs in a
+        # subshell to speed things up.
+        #
+        # For BSD sed I reproduce the effect of the -i option manually by
+        # outputting to a temp file, then overwriting the original.
         if man sed | grep -s 'BSD' > /dev/null
         then
-            local in_place_option='-i"tmp"'
+            sed -e :a -e '$q;N;'"${BASHSHELLLOGFILELEN}"',$D;ba' "${bash_shell_logfile}" > "${bash_shell_logfile}".tmp; mv "${bash_shell_logfile}".tmp "${bash_shell_logfile}"
         else
-            local in_place_option='--in-place=tmp'
+            (sed --in-place= -e :a -e '$q;N;'"${BASHSHELLLOGFILELEN}"',$D;ba' "${bash_shell_logfile}" &)
         fi
-        sed $in_place_option -e :a -e '$q;N;'"${BASHSHELLLOGFILELEN}"',$D;ba' "${bash_shell_logfile}"
 
     elif [[ ${BASHSHELLLOGFILELEN} == 0 ]]
     then
