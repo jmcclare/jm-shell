@@ -190,6 +190,16 @@ prompt_pre_command() {
     # Update history file and append new items from it.
     #
 
+    # Make sure the history file and its directory exist.
+    if [ ! -d "$(dirname "${HISTFILE}")" ]
+    then
+        touch "$(dirname "${HISTFILE}")"
+    fi
+    if [ ! -f "${HISTFILE}" ]
+    then
+        touch "${HISTFILE}"
+    fi
+
     # This little trick runs the commands silently in the background in a
     # subshell that will not report jobs to this one.
     # NOTE: Unfortunately, the subshell also does not have access to this
@@ -243,7 +253,14 @@ prompt_pre_command() {
     # not clear duplicates in the history file when it appends its list there.
     # To clear those, you need to run the awk command below either periodically
     # (cron job), after each command or when a new shell is created.
-    history -a
+    if (("$(wc -l "${HISTFILE}" | awk '{ print $1 }')" == 0))
+    then
+        # Edge case: If the history file is empty, use the -w (write) command.
+        # -a seems to do nothing in this case.
+        history -w
+    else
+        history -a
+    fi
 
     # Remove duplicate entries from the history file.
     #
