@@ -53,6 +53,18 @@
 #
 
 
+#
+# Determine this file’s location.
+#
+# Based on a StackExchange answer: https://unix.stackexchange.com/a/351658
+# Plus the bash variable is set using this answer’s technique:
+# https://unix.stackexchange.com/a/153061
+#
+JMSHELL_MAIN="${BASH_SOURCE[0]}"
+JMSHELL_DIR="$(cd "$(dirname "${JMSHELL_MAIN}")" && pwd)"
+unset JMSHELL_MAIN
+
+
 prompt_main() {
     #
     # Properly set our standard $PROMPT_COMMAND.
@@ -521,7 +533,7 @@ prompt_log_shell_command() {
         echo "$(date)	${PWD}	${1}" >> "${bash_shell_logfile}"
 
         # Trim the file.
-        /bin/sed -i -e :a -e '$q;N;'"${BASHSHELLLOGFILELEN}"',$D;ba' "${bash_shell_logfile}"
+        sed -i -e :a -e '$q;N;'"${BASHSHELLLOGFILELEN}"',$D;ba' "${bash_shell_logfile}"
 
     elif [[ ${BASHSHELLLOGFILELEN} == 0 ]]
     then
@@ -695,14 +707,13 @@ prompt_extensive_style() {
     # max before displaying system load average highlighted
     local load_threshold_2=4
 
-
     PS1=''
     local fillsize=${COLUMNS}
     local fill=''
 
 
     # Define some color shortcuts
-    . ~/.local/lib/bash/colors.sh
+    source "${JMSHELL_DIR}"/colors.sh
 
     local divider_color="\[${IBlack}\]"
     local jobs_color="\[${Green}\]"
@@ -957,7 +968,7 @@ prompt_extensive_style() {
         local jobs="${jobs_color}[${num_jobs}] ${location_color}"
         # Make this unstyled version so we can count the characters accurately
         # for the fill
-        local jobs_base="[${num_jobs}}] "
+        local jobs_base="[${num_jobs}] "
         let fillsize=${fillsize}-${#jobs_base}
     fi
 
@@ -994,7 +1005,7 @@ prompt_extensive_style() {
     # The -U option tells it to list files in their default directory order. No
     # sorting. This gives much better performance when we're only looking for a
     # count anyway.
-    local fcount=$(/bin/ls -1AU 2>/dev/null | /usr/bin/wc -l | /bin/sed 's: ::g')
+    local fcount=$(/bin/ls -1AU 2>/dev/null | /usr/bin/wc -l | sed 's: ::g')
 
     # This isn't necessary with the -A option above.
     #let fcount=${fcount}-2
@@ -1014,8 +1025,8 @@ prompt_extensive_style() {
     # #
     # # This older version used an overly fancy grep command to do what `head -n
     # # 1` can.
-    # #local fsize=$(/bin/ls -lAUh 2>/dev/null | /bin/grep -m 1 total | /bin/sed "s/total //")
-    # local fsize=$(/bin/ls -lAUh 2>/dev/null | /usr/bin/head -n 1 | /bin/sed "s/total //")
+    # #local fsize=$(/bin/ls -lAUh 2>/dev/null | /bin/grep -m 1 total | sed "s/total //")
+    # local fsize=$(/bin/ls -lAUh 2>/dev/null | /usr/bin/head -n 1 | sed "s/total //")
     # fsize=", ${fsize}"
     # let fillsize=${fillsize}-${#fsize}
 
@@ -1063,7 +1074,7 @@ prompt_extensive_style() {
 
 
     # Unset our color shortcut variables
-    . ~/.local/lib/bash/colors_unset.sh
+    source "${JMSHELL_DIR}"/colors_unset.sh
 
     prompt_post_command
 }
@@ -1236,10 +1247,10 @@ prompt_handle_debug() {
                 if [[ $PROMPT_STYLE == extensive-dark ]]
                 then
                     # Change to bold blue
-                    echo -ne '\e[1;34m'
+                    echo -ne '\033[1;34m'
                 else
                     # Change to bold yellow
-                    echo -ne '\e[1;33m'
+                    echo -ne '\033[1;33m'
                 fi
 
                 # Get the prompt symbol for this user (# for root, $ otherwise)
@@ -1253,7 +1264,7 @@ prompt_handle_debug() {
                 echo -n "${prompt_symbol} ${command}"
 
                 # reset the color for command output
-                echo -ne "\e[0m"
+                echo -ne "\033[0m"
 
                 # move the cursor down 1 line
                 echo -ne '\033[1B'
@@ -1265,7 +1276,7 @@ prompt_handle_debug() {
             fi
         else
             # Reset the colors for the command output.
-            echo -ne "\e[0m"
+            echo -ne "\033[0m"
         fi
     fi
 
