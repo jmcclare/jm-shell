@@ -160,14 +160,17 @@ BASHSHELLLOGFILELEN=1000000
 The default location is `~/.local/share/bash/shell.log`
 
 `BASHSHELLLOGFILELEN` defaults to the value of `HISTFILESIZE`, or 10000, if
-`HISTFILESIZE` is not valid.
+`HISTFILESIZE` is not valid. If you set `BASHSHELLLOGFILELEN` it will not log
+commands to the file and instead ensure it is removed.
 
 The history updater uses the standard Bash variables `HISTFILE`,
 `HISTFILESIZE`, and `HISTSIZE`. It behaves as though `HISTCONTROL` is set to
 `ignoreboth:erasedups` and it does a better job than both of those options
 normally do.
 
-The default indicator for the Python virtual environment name is ‘V’ for “virtual environment”. You can change it by setting the `PROMPT_VENV_INDICATOR` variable.
+The default indicator for the Python virtual environment name is ‘V’ for
+“virtual environment”. You can change it by setting the `PROMPT_VENV_INDICATOR`
+variable.
 
 ```
 PROMPT_VENV_INDICATOR=venv
