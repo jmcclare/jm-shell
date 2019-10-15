@@ -264,13 +264,23 @@ prompt_pre_command() {
     # search to find the exact command you just entered.
     #awk '!x[$0]++' $HISTFILE > ~/tmp/bash_history_no_dupes && mv ~/tmp/bash_history_no_dupes $HISTFILE
 
+    if ! which tac > /dev/null 2>&1
+    then
+        # For systems without the tac command (Mac OS) use a sed command that does the same thing.
+        #
+        # From StackOverflow: https://stackoverflow.com/a/744093
+        tac_cmd='sed 1!G;h;$!d'
+    else
+        tac_cmd='tac'
+    fi
+
     # cat the history file in reverse line order to a temp file
-    #tac $HISTFILE > ~/tmp/bash_history_reversed
+    #$tac_cmd $HISTFILE > ~/tmp/bash_history_reversed
     # remove duplicates from the temp file and dump them to another temp file
     #awk '!x[$0]++' ~/tmp/bash_history_reversed > ~/tmp/bash_history_no_dupes
     # cat the reversed de-duped temp file in reverse line order back into the
     # history file (overwriting it)
-    #tac ~/tmp/bash_history_no_dupes > $HISTFILE
+    #$tac_cmd ~/tmp/bash_history_no_dupes > $HISTFILE
 
     # Better method of the above with secure temp file and no intermediate
     # files for reversing.
@@ -281,7 +291,7 @@ prompt_pre_command() {
     # Switch it back to original order and output to a temp file.
     if [ -f $hsttmp ]
     then
-        tac $HISTFILE | awk '!x[$0]++' | grep -E '^[^ ]' | tac > $hsttmp && mv $hsttmp $HISTFILE
+        $tac_cmd $HISTFILE | awk '!x[$0]++' | grep -E '^[^ ]' | $tac_cmd > $hsttmp && mv $hsttmp $HISTFILE
 
         # Run this in a background shell to speed things up a tiny bit.
         (chmod go-rwx $HISTFILE &) 1>/dev/null
@@ -480,7 +490,9 @@ prompt_append_shell_log() {
     #
 
     # Remove the leading command number before logging.
-    current_command_entry="$(echo "${current_command_entry}" | sed -r -e 's/^ *[0-9]+ +//')"
+    # Use -E instead of -r for portability. See `man sed` on GNU Linux systems
+    # for more.
+    current_command_entry="$(echo "${current_command_entry}" | sed -E -e 's/^ *[0-9]+ +//')"
 
 	(prompt_log_shell_command "${current_command_entry}" > /dev/null &)
 }
