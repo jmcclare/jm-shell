@@ -538,7 +538,7 @@ prompt_log_shell_command() {
 
         elif (("${HISTFILESIZE}" >= 0))
         then
-            BASHSHELLLOGFILELEN=HISTFILESIZE
+            BASHSHELLLOGFILELEN=$HISTFILESIZE
         else
             BASHSHELLLOGFILELEN=10000
         fi
@@ -550,9 +550,17 @@ prompt_log_shell_command() {
 
         # Trim the file.
         #
-        # We have to specify a zero length extension for the -i option or Mac
-        # OS’s sed will fail with an error.
-        sed -i'' -e :a -e '$q;N;'"${BASHSHELLLOGFILELEN}"',$D;ba' "${bash_shell_logfile}"
+        # My clunky way of determining whether or not we are using BSD sed. The
+        # -i option is complete incompatible between these two versions. My
+        # choices are use this clunky hack or reproduce the -i option myself by
+        # making my own temp file.
+        if man sed | grep -s 'BSD' > /dev/null
+        then
+            local in_place_option='-i"tmp"'
+        else
+            local in_place_option='--in-place=tmp'
+        fi
+        sed $in_place_option -e :a -e '$q;N;'"${BASHSHELLLOGFILELEN}"',$D;ba' "${bash_shell_logfile}"
 
     elif [[ ${BASHSHELLLOGFILELEN} == 0 ]]
     then
