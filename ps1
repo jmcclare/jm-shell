@@ -552,7 +552,7 @@ prompt_log_shell_command() {
         #
         # We have to specify a zero length extension for the -i option or Mac
         # OS’s sed will fail with an error.
-        sed -i '' -e :a -e '$q;N;'"${BASHSHELLLOGFILELEN}"',$D;ba' "${bash_shell_logfile}"
+        sed -i'' -e :a -e '$q;N;'"${BASHSHELLLOGFILELEN}"',$D;ba' "${bash_shell_logfile}"
 
     elif [[ ${BASHSHELLLOGFILELEN} == 0 ]]
     then
