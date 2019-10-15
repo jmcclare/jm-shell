@@ -492,7 +492,7 @@ prompt_append_shell_log() {
     # Remove the leading command number before logging.
     # Use -E instead of -r for portability. See `man sed` on GNU Linux systems
     # for more.
-    current_command_entry="$(echo "${current_command_entry}" | sed -E -e 's/^ *[0-9]+ +//')"
+    current_command_entry="$(echo "${current_command_entry}" | sed -E 's/^ *[0-9]+ +//')"
 
 	(prompt_log_shell_command "${current_command_entry}" > /dev/null &)
 }
@@ -549,7 +549,10 @@ prompt_log_shell_command() {
         echo "$(date)	${PWD}	${1}" >> "${bash_shell_logfile}"
 
         # Trim the file.
-        sed -i -e :a -e '$q;N;'"${BASHSHELLLOGFILELEN}"',$D;ba' "${bash_shell_logfile}"
+        #
+        # We have to specify a zero length extension for the -i option or Mac
+        # OS’s sed will fail with an error.
+        sed -i '' -e :a -e '$q;N;'"${BASHSHELLLOGFILELEN}"',$D;ba' "${bash_shell_logfile}"
 
     elif [[ ${BASHSHELLLOGFILELEN} == 0 ]]
     then
