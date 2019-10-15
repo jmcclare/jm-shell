@@ -582,7 +582,7 @@ prompt_log_shell_command() {
         then
             sed -e :a -e '$q;N;'"${BASHSHELLLOGFILELEN}"',$D;ba' "${bash_shell_logfile}" > "${bash_shell_logfile}".tmp; mv "${bash_shell_logfile}".tmp "${bash_shell_logfile}"
         else
-            (sed --in-place= -e :a -e '$q;N;'"${BASHSHELLLOGFILELEN}"',$D;ba' "${bash_shell_logfile}" &)
+            sed --in-place= -e :a -e '$q;N;'"${BASHSHELLLOGFILELEN}"',$D;ba' "${bash_shell_logfile}"
         fi
 
     elif [[ ${BASHSHELLLOGFILELEN} == 0 ]]
