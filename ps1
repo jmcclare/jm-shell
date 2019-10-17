@@ -571,24 +571,23 @@ function prompt_log_shell_command
     then
         echo "$(date)	${PWD}	${1}" >> "${bash_shell_logfile}"
 
+        #
         # Trim the file.
         #
-        # The if statement is my clunky way of determining whether or not we
-        # are using BSD sed. The -i option’s usage is completely incompatible
-        # betwen BSD and GNU sed. Worse, the BSD version of sed in Mac OS
-        # leaves dotfiles behind and does not clean them up.
+        # The -i option’s usage is completely incompatible between BSD and GNU
+        # sed. Worse, the BSD version of sed in Mac OS leaves dotfiles behind
+        # and does not clean them up.
         #
-        # Because of BSD sed’s issues I have split this into two different
-        # methods. For GNU sed it uses the -i option.
+        # To avoid a slow, hacky way of detecting BSD sed (I was grepping the
+        # man page) I am using the same work around for both environments. I
+        # manually output to a temp file, then move the temp file to the
+        # original after sed is finished. This is what the -i option does.
         #
-        # For BSD sed I reproduce the effect of the -i option manually by
-        # outputting to a temp file, then overwriting the original.
-        if man sed | grep -s 'BSD' > /dev/null
-        then
-            sed -e :a -e '$q;N;'"${BASHSHELLLOGFILELEN}"',$D;ba' "${bash_shell_logfile}" > "${bash_shell_logfile}".tmp; mv "${bash_shell_logfile}".tmp "${bash_shell_logfile}"
-        else
-            sed --in-place= -e :a -e '$q;N;'"${BASHSHELLLOGFILELEN}"',$D;ba' "${bash_shell_logfile}"
-        fi
+        # Here is the equivalent GNU sed command using the -i option:
+        #
+        #    sed --in-place= -e :a -e '$q;N;'"${BASHSHELLLOGFILELEN}"',$D;ba' "${bash_shell_logfile}"
+        #
+        sed -e :a -e '$q;N;'"${BASHSHELLLOGFILELEN}"',$D;ba' "${bash_shell_logfile}" > "${bash_shell_logfile}".tmp; mv "${bash_shell_logfile}".tmp "${bash_shell_logfile}"
 
     elif [[ ${BASHSHELLLOGFILELEN} == 0 ]]
     then
