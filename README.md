@@ -58,7 +58,18 @@ Both the history and the shell log file omit logging commands that begin with a
 space. This is the same as Bash’s `ignorespace` or `ignoreboth` options, but it
 does this no matter how those are set.
 
-### Other Included Prompt Styles ###
+### Included Prompt Styles <a name="included-prompt-styles"></a> ###
+
+You can set the `PROMPT_STYLE` environment variable to any of the following
+values.
+
+#### extensive ####
+
+The style described above. This is the default style if you don’t set
+`PROMPT_STYLE`.
+
+Set `PROMPT_STYLE` to `extensive-dark` for a dark version that is more legible
+on white terminal backgrounds.
 
 #### standard and standard-mono ####
 
@@ -80,14 +91,6 @@ Set `PROMPT_STYLE` to `fast` for the standard Bash color prompt. Set it to
 
 A slight tweak of the default Bash color prompt style. Unlike the default, it
 also runs the background jobs.
-
-#### extensive ####
-
-The style described at the top. This is the default style if you don’t set
-`PROMPT_STYLE`.
-
-Set `PROMPT_STYLE` to `extensive-dark` for a dark version that is more legible
-on white terminal backgrounds.
 
 #### minimal ####
 
@@ -147,7 +150,8 @@ setting `PROMPT_STYLE`, like this:
 PROMPT_STYLE=kirby
 ```
 
-The default prompt style is `extensive`.
+The default prompt style is `extensive`. See the [included prompt
+styles](#included-prompt-styles) above.
 
 You can change the location and size of the shell log file by setting
 `$BASHSHELLLOGFILE` and `BASHSHELLLOGFILELEN`.
