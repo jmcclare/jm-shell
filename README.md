@@ -4,6 +4,12 @@ A highly informative, customized Bash shell.
 
 <img src="screenshot.png" />
 
+Tested in:
+
+* Ubuntu 14.04, 16.04, 18.04
+* Mac OS 10.12
+
+
 ## Features ##
 
 ### Divider / Status  Line ###
