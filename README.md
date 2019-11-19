@@ -194,3 +194,47 @@ status line off the screen. To fix this, add a space to the
 PROMPT_VENV_INDICATOR=🐍
 PROMPT_VENV_INDICATOR_PADDING=' '
 ```
+
+
+## Troubleshooting ##
+
+If the command is not properly redrawn in bold on the same line, or error
+status codes are not shown in the status line (try entering `ls sdfgrtegre`)
+you may have a problem with your `PROMPT_COMMAND` environment variable.
+
+When you source `ps1` it sets `PROMPT_COMMAND` to `prompt_command`.
+`prompt_command` is the name of the function jm-shell defines to update your
+prompt after each command. You add other things to your `PROMPT_COMMAND`
+environment variable, but they must either come before the call to
+`prompt_command`, or be run in a subshell.
+
+Enter to following to see what your `PROMPT_COMMAND` environment variable is
+set to:
+
+```
+echo $PROMPT_COMMAND
+```
+
+For example, if you have a custom shell function `refresh_tmux_env`, you can
+add it to your `PROMPT_COMMAND` like this:
+
+```
+PROMPT_COMMAND="refresh_tmux_env; $PROMPT_COMMAND"
+```
+
+If you use [z](https://github.com/rupa/z) in your shell it will add a call in a
+subshell to your `PROMPT_COMMAND` when you source it in your `~/.bashrc`. This
+will not cause any issues for jm-shell.
+
+Make sure you source z before sourcing the jm-shell `ps1`. The jm-shell `ps1`
+will completely overwrite `PROMPT_COMMAND`.
+
+If you source jm-shell’s `ps1`, then source `z`, your prompt command will look
+like this:
+
+```
+prompt_command (_z --add "$(command pwd 2>/dev/null)" 2>/dev/null &);
+```
+
+Even though the call to `_z` comes after `prompt_command`, it is run in a
+subshell, so it does not interfere with jm-shell.

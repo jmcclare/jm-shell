@@ -611,10 +611,6 @@ function prompt_log_shell_command
 prompt_new_shell=0
 function prompt_command
 {
-    # Set this first so that we actually get the exit status of the last
-    # command run on the prompt, not a command run inside here.
-    local last_prompt_command_exit_status=$?
-
     # Local variables shared by functions called by this one.
     local num_jobs
     local last_command_duration
@@ -794,18 +790,20 @@ function prompt_extensive_style
 
     # Add the last command's exit status, if not zero.
     #
-    # We set $command_error inside prompt_command() if it's not zero.
-    if [ ! $last_prompt_command_exit_status -eq 0 ]; then
-        local exit_status="─── exit: \[${BRed}\]${last_prompt_command_exit_status} ${divider_color}"
+    # We set $prompt_last_exit_status in prompt_handle_debug.
+    if [ ! $prompt_last_exit_status -eq 0 ]
+    then
+        local exit_status="─── exit: \[${BRed}\]${prompt_last_exit_status} ${divider_color}"
         # Make this unstyled version so we can count the characters accurately
         # for the fill
-        local exit_status_base="─── exit: ${last_prompt_command_exit_status} "
+        local exit_status_base="─── exit: ${prompt_last_exit_status} "
         let fillsize=${fillsize}-${#exit_status_base}
     fi
 
 
     # Add the last command's elapsed runtime if it is >= the threshold (above).
-    if [ ! -z "${last_command_duration}" ] && ((${last_command_duration} > ${elapsed_threshold})); then
+    if [ ! -z "${last_command_duration}" ] && ((${last_command_duration} > ${elapsed_threshold}))
+    then
         # Calculate seconds, minutes, hours and remainders
         local elapsed_s=${last_command_duration}
         local elapsed_sr=$(expr ${elapsed_s} % 60)
@@ -845,9 +843,11 @@ function prompt_extensive_style
         local int_load_stat=${load_threshold_1}
     fi
 
-    if ((${int_load_stat} > ${load_threshold_1})); then
+    if ((${int_load_stat} > ${load_threshold_1}))
+    then
         local load_stat_color=${divider_color}
-        if ((${int_load_stat} > ${load_threshold_2})); then
+        if ((${int_load_stat} > ${load_threshold_2}))
+        then
             load_stat_color="\[${Red}\]"
         fi
         local load_base="─── load: ${load_stat} "
@@ -925,7 +925,8 @@ function prompt_extensive_style
 
 
     # Add an indicator if we are currently running Midnight Commander
-    if [ ! -z "${MC_SID}" ]; then
+    if [ ! -z "${MC_SID}" ]
+    then
         local mc_base="─── MC "
         local mc="─── \[${BCyan}\]MC${divider_color} "
         let fillsize=${fillsize}-${#mc_base}
@@ -933,7 +934,8 @@ function prompt_extensive_style
 
 
     # Add an indicator if we are inside a Vim shell
-    if [ ! -z "${VIM}" ]; then
+    if [ ! -z "${VIM}" ]
+    then
         local vim_base="─── Vim "
         local vim="─── \[${BGreen}\]Vim${divider_color} "
         let fillsize=${fillsize}-${#vim_base}
@@ -1036,7 +1038,8 @@ function prompt_extensive_style
 
 
     # Show the number of running background jobs, if any.
-    if ((${num_jobs} > 0)); then
+    if ((${num_jobs} > 0))
+    then
         local jobs="${jobs_color}[${num_jobs}] ${location_color}"
         # Make this unstyled version so we can count the characters accurately
         # for the fill
@@ -1106,7 +1109,8 @@ function prompt_extensive_style
     # Add version control system status for the current directory (if any).
     local vcs_base="$(prompt_vcs)"
     local vcs="${vcs_base}"
-    if [ ! -z $vcs_base ]; then
+    if [ ! -z $vcs_base ]
+    then
         # Add some space, to the front, now that we know we're displaying
         # something.
         vcs_base="  ${vcs_base}"
@@ -1119,7 +1123,8 @@ function prompt_extensive_style
 
 
     # Add the current location/status line
-    if ((${fillsize} >= 0)); then
+    if ((${fillsize} >= 0))
+    then
         PS1=${PS1}"${jobs}${current_location}${fcount}${fsize}${vcs}${fill}"
     else
         # move the path down to it's own line
@@ -1257,8 +1262,12 @@ prompt_enter_seconds=0
 # ~/.bashrc loads this file. Our $PROMPT_COMMAND will initialize it properly to
 # 0 when it is first displayed.
 prompt_debug_marks=2
+# Initialize this.
+prompt_last_exit_status=0
 function prompt_handle_debug
 {
+    local current_last_exit_status=$?
+    #echo "in handle_debug: $?, debug_marks: $prompt_debug_marks"
     # For debugging
     #local current_command_entry="$(history 1)"
 	#echo "In handle_debug, history 1: ${current_command_entry}, prompt_debug_marks: ${prompt_debug_marks}" >> /tmp/shell-log-debug
@@ -1353,6 +1362,22 @@ function prompt_handle_debug
             # Reset the colors for the command output.
             echo -ne "\033[0m"
         fi
+    fi
+
+    if [ "$prompt_debug_marks" = "1" ]
+    then
+        # This should capture the correct last exit status. We want the exit
+        # status set by the command that was entered and not by any parts of
+        # PROMPT_COMMAND. Normally, the command is entered. The DEBUG signal
+        # handler is called (this function), the command exits, the DEBUG
+        # signal handler is called again.
+        #
+        # Note that this requires our prompt_command function to be the last
+        # thing called before the prompt is shown. If you add other things to
+        # your PROMPT_COMMAND they must either come before the call to
+        # PROMPT_COMMAND, or be run in a subshell, ie. `(some_command >
+        # /dev/null)`.
+        prompt_last_exit_status=$current_last_exit_status
     fi
 
     # test output for debugging
