@@ -611,11 +611,9 @@ function prompt_log_shell_command
 prompt_new_shell=0
 function prompt_command
 {
-    local last_prompt_command_exit_status=$?
     # Set this first so that we actually get the exit status of the last
-    # command run on the prompt, not a command run inside here. There can be
-    # nothing before the above variable assignment—not even comments—or it will
-    # not capture the correct value.
+    # command run on the prompt, not a command run inside here.
+    local last_prompt_command_exit_status=$?
 
     # Local variables shared by functions called by this one.
     local num_jobs
