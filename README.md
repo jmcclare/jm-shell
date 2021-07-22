@@ -6,7 +6,7 @@ A highly informative, customized Bash shell.
 
 Tested in:
 
-* Ubuntu 14.04, 16.04, 18.04
+* Ubuntu 14.04, 16.04, 18.04, 20.04
 * Mac OS 10.12
 
 
@@ -128,23 +128,25 @@ Bash prompt variables. A bit better for performance than the extensive style.
 Clone this repository into a directory like `~/.local/lib/jm-shell` with:
 
 ```
+mkdir -p ~/.local/lib
 git clone git@github.com:jmcclare/jm-shell.git ~/.local/lib/jm-shell
 ```
 
 Add the following to your `~/.bashrc`
 
-```
+```Bash
 # Source jm-shell custom prompt if it exists.
-if [ -f "$HOME/.local/lib/jm-shell/ps1" ]
+if [ -f "${HOME}/.local/lib/jm-shell/ps1" ]
 then
-    source "$HOME/.local/lib/jm-shell/ps1"
+    source "${HOME}/.local/lib/jm-shell/ps1"
 fi
 ```
 
 If you are using anything that adds something to your Bash `$PROMPT_COMMAND`,
-like [fzf](https://github.com/junegunn/fzf), make sure you source `ps1` first.
-The prompt command this PS1 adds must be the first part of your
-`$PROMPT_COMMAND`.
+like [z](https://github.com/rupa/z), make sure you source `ps1` first. It will
+overwrite `$PROMPT_COMMAND`. The prompt command this PS1 adds must be the last
+part of your `$PROMPT_COMMAND` unless you are appending something that runs in
+a subshell (like z). See the Troubleshooting section for more.
 
 
 ## Configuration ##
@@ -170,8 +172,8 @@ BASHSHELLLOGFILELEN=1000000
 The default location is `~/.local/share/bash/shell.log`
 
 `BASHSHELLLOGFILELEN` defaults to the value of `HISTFILESIZE`, or 10000, if
-`HISTFILESIZE` is not valid. If you set `BASHSHELLLOGFILELEN` it will not log
-commands to the file and instead ensure it is removed.
+`HISTFILESIZE` is not valid. If you set `BASHSHELLLOGFILELEN` to `0` it will
+not log commands to the file and instead ensure it is removed.
 
 The history updater uses the standard Bash variables `HISTFILE`,
 `HISTFILESIZE`, and `HISTSIZE`. It behaves as though `HISTCONTROL` is set to
@@ -204,7 +206,7 @@ you may have a problem with your `PROMPT_COMMAND` environment variable.
 
 When you source `ps1` it sets `PROMPT_COMMAND` to `prompt_command`.
 `prompt_command` is the name of the function jm-shell defines to update your
-prompt after each command. You add other things to your `PROMPT_COMMAND`
+prompt after each command. You can add other things to your `PROMPT_COMMAND`
 environment variable, but they must either come before the call to
 `prompt_command`, or be run in a subshell.
 
