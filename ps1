@@ -864,15 +864,18 @@ function prompt_extensive_style
     # make sure that is silent too.
     if which acpi > /dev/null 2>&1
     then
-        local battery_level=`acpi 2> /dev/null | awk '{print $4}' | tr -d " " | tr -d "," | tr -d "%"`
+        local battery_level="$(acpi 2> /dev/null | awk '{print $4}' | tr -d " " | tr -d "," | tr -d "%")"
         # On systems that have acpi installed, but not power_supply status
         # supported, it will only output errors. Check for this.
-        if [ ! -z "${battery_level}" ]; then
-            local batt_activity="$(acpi | cut -d' ' -f3 | cut -d, -f1)"
+        if [ ! -z "${battery_level}" ]
+        then
+            local batt_activity="$(acpi | cut -d' ' -f3 | cut -d, -f1 | head -n 1)"
 
-            if [ ${batt_activity} = "Charging" ]; then
+            if [ ${batt_activity} = "Charging" ]
+            then
                 batt_arrow='↑'
-            elif [ ${batt_activity} = "Discharging" ]; then
+            elif [ ${batt_activity} = "Discharging" ]
+            then
                 batt_arrow='↓'
             fi
 
@@ -915,7 +918,8 @@ function prompt_extensive_style
                     battery_icon_base="▁${batt_arrow}"
                     battery_icon="${batt_critical_color}▁${batt_arrow_critical_color}${batt_arrow}${divider_color}" ;;
             esac
-            if [ ! "${battery_icon_base}" = "" ]; then
+            if [ ! "${battery_icon_base}" = "" ]
+            then
                 battery_icon_base='─── '${battery_icon_base}' '
                 battery_icon='─── '${battery_icon}' '
             fi
