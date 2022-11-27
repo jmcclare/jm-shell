@@ -628,15 +628,14 @@ function prompt_command
     # directly here, or call a function that sets it and also runs the pre and
     # post commands.
     #
-    # TODO: Create new styles:
+    # TODO: Create new style:
     #   * extensive-mono
-    #   * extensive-dark — for light backgrounds
     #
     case "${PROMPT_STYLE}" in
         standard|default) prompt_standard_style ;;
         standard-mono|default-mono) prompt_standard_mono_style ;;
         tweaked) prompt_tweaked_style ;;
-        extensive) prompt_extensive_style ;;
+        extensive|extensive-dark) prompt_extensive_style ;;
         fast) PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ ' ;;
         fast-mono) PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ ' ;;
         minimal) PS1='\$ ' ;;
