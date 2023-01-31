@@ -6,7 +6,7 @@ A highly informative, customized Bash shell.
 
 Tested in:
 
-* Ubuntu 14.04, 16.04, 18.04, 20.04
+* Ubuntu 14.04, 16.04, 18.04, 20.04, 22.04
 * Mac OS 10.12
 
 
@@ -127,7 +127,7 @@ Bash prompt variables. A bit better for performance than the extensive style.
 
 Clone this repository into a directory like `~/.local/lib/jm-shell` with:
 
-```
+```Bash
 mkdir -p ~/.local/lib
 git clone git@github.com:jmcclare/jm-shell.git ~/.local/lib/jm-shell
 ```
@@ -154,7 +154,7 @@ a subshell (like z). See the Troubleshooting section for more.
 You can set one of the other styles any time, or in your `~/.bashrc`, by
 setting `PROMPT_STYLE`, like this:
 
-```
+```Bash
 PROMPT_STYLE=kirby
 ```
 
@@ -164,7 +164,7 @@ styles](#included-prompt-styles) above.
 You can change the location and size of the shell log file by setting
 `$BASHSHELLLOGFILE` and `BASHSHELLLOGFILELEN`.
 
-```
+```Bash
 BASHSHELLLOGFILE=~/.bash-shell.log
 BASHSHELLLOGFILELEN=1000000
 ```
@@ -184,7 +184,7 @@ The default indicator for the Python virtual environment name is ‘V’ for
 “virtual environment”. You can change it by setting the `PROMPT_VENV_INDICATOR`
 variable.
 
-```
+```Bash
 PROMPT_VENV_INDICATOR=venv
 ```
 
@@ -192,7 +192,7 @@ If you use a wide character like ‘🐍’ (snake) it may push the right side o
 status line off the screen. To fix this, add a space to the
 `PROMPT_VENV_INDICATOR_PADDING` variable for each of these characters.
 
-```
+```Bash
 PROMPT_VENV_INDICATOR=🐍
 PROMPT_VENV_INDICATOR_PADDING=' '
 ```
@@ -213,14 +213,14 @@ environment variable, but they must either come before the call to
 Enter to following to see what your `PROMPT_COMMAND` environment variable is
 set to:
 
-```
+```Bash
 echo $PROMPT_COMMAND
 ```
 
 For example, if you have a custom shell function `refresh_tmux_env`, you can
 add it to your `PROMPT_COMMAND` like this:
 
-```
+```Bash
 PROMPT_COMMAND="refresh_tmux_env; $PROMPT_COMMAND"
 ```
 
@@ -234,7 +234,7 @@ will completely overwrite `PROMPT_COMMAND`.
 If you source jm-shell’s `ps1`, then source `z`, your prompt command will look
 like this:
 
-```
+```Bash
 prompt_command (_z --add "$(command pwd 2>/dev/null)" 2>/dev/null &);
 ```
 
