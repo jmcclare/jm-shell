@@ -1269,6 +1269,8 @@ prompt_debug_marks=2
 prompt_last_exit_status=0
 function prompt_handle_debug
 {
+    local current_last_exit_status=$?
+
     # Prevent these fzf commands from causing a redraw of the prompt command.
     case "${BASH_COMMAND}" in
         __fzf_history__|fzf-file-widget)
@@ -1276,7 +1278,6 @@ function prompt_handle_debug
             ;;
     esac
 
-    local current_last_exit_status=$?
     #echo "in handle_debug: $?, debug_marks: $prompt_debug_marks"
     # For debugging
     #local current_command_entry="$(history 1)"
