@@ -1284,6 +1284,7 @@ function prompt_handle_debug
 	#echo "In handle_debug, history 1: ${current_command_entry}, prompt_debug_marks: ${prompt_debug_marks}" >> /tmp/shell-log-debug
 	#echo "In handle_debug, BASH_HISTORY: ${BASH_HISTORY}, prompt_debug_marks: ${prompt_debug_marks}" >> /tmp/shell-log-debug
 
+    #
     # We reset $prompt_debug_marks in our $PROMPT_COMMAND (see prompt_command,
     # above). It is initialized to 2 when this files is sourced (above) to
     # prevent any of this code from running when the prompt is first creatd.
@@ -1292,7 +1293,15 @@ function prompt_handle_debug
     # command is entered on the command line. It used to be the second because
 	# I was running z’s command after the $PROMPT_COMMAND. Now _z is run in the
 	# background after prompt_command.
-    if [ "$prompt_debug_marks" = "0" ]
+    #
+    local redraw_mark=0
+    # Midnight Commander appends two commands to $PROMPT_COMMAND, so we have to
+    # wait for two extra debug calls when in mc.
+    if [ -n "${MC_SID}" ]
+    then
+        redraw_mark=2
+    fi
+    if [ "$prompt_debug_marks" = "${redraw_mark}" ]
     then
         # Mark the seconds on the prompt timer that the last command was
         # entered. $prompt_enter_seconds is initialized to 0 in main().
@@ -1375,7 +1384,14 @@ function prompt_handle_debug
         fi
     fi
 
-    if [ "$prompt_debug_marks" = "1" ]
+    local exit_status_mark=1
+    # Midnight Commander appends two commands to $PROMPT_COMMAND, so we have to
+    # wait for two extra debug calls when in mc.
+    if [ -n "${MC_SID}" ]
+    then
+        exit_status_mark=3
+    fi
+    if [ "$prompt_debug_marks" = "${exit_status_mark}" ]
     then
         # This should capture the correct last exit status. We want the exit
         # status set by the command that was entered and not by any parts of
