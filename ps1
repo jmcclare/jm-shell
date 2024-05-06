@@ -1297,9 +1297,9 @@ function prompt_handle_debug
     local redraw_mark=0
     # Midnight Commander appends two commands to $PROMPT_COMMAND, so we have to
     # wait for two extra debug calls when in mc.
-    if [ -n "${MC_SID}" ]
+    if [ -n "${MC_SID}" ] || [ -n "${KITTY_PID}" ]
     then
-        redraw_mark=2
+        redraw_mark=$((redraw_mark + 2))
     fi
     if [ "$prompt_debug_marks" = "${redraw_mark}" ]
     then
@@ -1387,9 +1387,9 @@ function prompt_handle_debug
     local exit_status_mark=1
     # Midnight Commander appends two commands to $PROMPT_COMMAND, so we have to
     # wait for two extra debug calls when in mc.
-    if [ -n "${MC_SID}" ]
+    if [ -n "${MC_SID}" ] || [ -n "${KITTY_PID}" ]
     then
-        exit_status_mark=3
+        exit_status_mark=$((exit_status_mark + 2))
     fi
     if [ "$prompt_debug_marks" = "${exit_status_mark}" ]
     then
